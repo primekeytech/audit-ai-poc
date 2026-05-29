@@ -14,6 +14,58 @@ This tool automates the bank IT audit workflow:
 
 ---
 
+## 🏗️ Architecture
+
+```
+Bank Documents (PDF/DOCX/XLSX)
+        ↓
+[ Document Extractor ]
+  pdfplumber · python-docx · openpyxl
+        ↓
+[ AI Analysis Engine ]
+  Ollama + llama3 (local, offline)
+  OpenAI / Anthropic (optional, swappable)
+        ↓
+[ Work Program Engine ]
+  Loads existing Excel template
+  Populates columns F, G, H only
+  Preserves all formulas · Saves as new file
+        ↓
+[ Report Engine ]
+  Jinja2 + WeasyPrint → branded PDF
+        ↓
+[ Streamlit UI — localhost ]
+  Upload → Analyse → Review → Report
+  100% local · no internet required
+```
+
+---
+
+## 📋 Current Status
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Streamlit UI | ✅ Done | Full workflow, premium dark theme |
+| Document Extractor | ✅ Done | PDF, DOCX, XLSX |
+| AI Provider | ✅ Done | Ollama + OpenAI modular |
+| Work Program Engine | ✅ Done | Populates F/G/H only |
+| Report Engine | ✅ Done | Jinja2 + WeasyPrint |
+| Real AI Integration | ⏳ Pending | Awaiting client documents |
+| Real PDF Report | ⏳ Pending | Awaiting client documents |
+
+---
+
+## 🔜 Next Steps (Phase 2)
+
+1. Receive client work program template + bank documents
+2. Map control structure and scoring rubric
+3. Build AI prompts specific to audit framework
+4. Wire up real Ollama analysis per control
+5. Test end-to-end with real documents
+6. Generate and review branded PDF report
+
+---
+
 ## Setup Instructions
 
 ### Step 1 — Install Python
