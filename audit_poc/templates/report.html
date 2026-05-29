@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{{ report_title }} — {{ bank_name }}</title>
+<style>
+
+/* ============================================
+   AUDIT REPORT BRANDING
+   Genesis GV70 / Harley Nightster aesthetic
+   Dark navy + Blood orange
+   ============================================ */
+
+/* Base reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Page settings for PDF */
+@page {
+    size: A4;
+    margin: 0;
+}
+
+/* Body */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #0A0F1E;
+    color: #EBF0FF;
+    font-size: 11pt;
+    line-height: 1.6;
+}
+
+/* ============================================
+   COVER PAGE
+   ============================================ */
+.cover-page {
+    width: 100%;
+    height: 297mm;
+    background: #0A0F1E;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Orange accent line at top */
+.cover-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #FF6B23;
+}
+
+/* Orange accent line at bottom */
+.cover-page::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FF6B23, transparent);
+}
+
+.cover-content {
+    text-align: center;
+    padding: 4rem;
+}
+
+.cover-logo {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #FF6B23;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+}
+
+.cover-title {
+    font-size: 36pt;
+    font-weight: 700;
+    color: #F5F8FF;
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.cover-bank {
+    font-size: 18pt;
+    color: #FF9A5C;
+    font-weight: 600;
+    margin-bottom: 3rem;
+}
+
+.cover-divider {
+    width: 80px;
+    height: 3px;
+    background: #FF6B23;
+    margin: 2rem auto;
+}
+
+.cover-meta {
+    font-size: 11pt;
+    color: #7B8BAA;
+    line-height: 2;
+}
+
+.cover-meta strong {
+    color: #EBF0FF;
+}
+
+/* Risk rating badge on cover */
+.cover-risk-badge {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border-radius: 100px;
+    font-size: 14pt;
+    font-weight: 700;
+    margin: 2rem 0;
+    border: 2px solid;
+}
+
+/* ============================================
+   INNER PAGES
+   ============================================ */
+.inner-page {
+    background: #0A0F1E;
+    min-height: 297mm;
+    padding: 2rem 3rem;
+    page-break-after: always;
+}
+
+/* Page header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,107,35,0.2);
+    margin-bottom: 2rem;
+}
+
+.page-header-left {
+    font-size: 9pt;
+    color: #7B8BAA;
+}
+
+.page-header-right {
+    font-size: 9pt;
+    color: #FF6B23;
+    font-weight: 600;
+}
+
+/* Section headings */
+.section-heading {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #FF6B23;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,107,35,0.2);
+}
+
+/* ============================================
+   EXECUTIVE SUMMARY
+   ============================================ */
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,107,35,0.15);
+    border-radius: 8px;
+    padding: 1.2rem;
+    text-align: center;
+}
+
+.summary-card-number {
+    font-size: 28pt;
+    font-weight: 700;
+    color: #FF6B23;
+    display: block;
+}
+
+.summary-card-label {
+    font-size: 9pt;
+    color: #7B8BAA;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Overall risk rating box */
+.risk-rating-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,107,35,0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.risk-rating-label {
+    font-size: 10pt;
+    color: #7B8BAA;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.risk-rating-value {
+    font-size: 24pt;
+    font-weight: 700;
+}
+
+.risk-rating-desc {
+    font-size: 10pt;
+    color: #7B8BAA;
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   FINDINGS SECTION
+   ============================================ */
+
+/* Individual finding card */
+.finding-card {
+    background: rgba(226,75,74,0.05);
+    border: 1px solid rgba(226,75,74,0.2);
+    border-left: 4px solid #E24B4A;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    page-break-inside: avoid;
+}
+
+/* Finding header */
+.finding-header {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #F5F8FF;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.finding-number {
+    background: #E24B4A;
+    color: white;
+    font-size: 9pt;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    flex-shrink: 0;
+}
+
+.finding-control-id {
+    font-size: 9pt;
+    color: #7B8BAA;
+    font-weight: 400;
+}
+
+/* Finding sections */
+.finding-section {
+    margin-bottom: 0.8rem;
+}
+
+.finding-section-label {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #FF6B23;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+}
+
+.finding-section-text {
+    font-size: 10pt;
+    color: #C8D0E0;
+    line-height: 1.6;
+}
+
+/* References badges */
+.references {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+}
+
+.reference-badge {
+    font-size: 8pt;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: rgba(255,107,35,0.1);
+    border: 1px solid rgba(255,107,35,0.2);
+    color: #FF9A5C;
+}
+
+/* ============================================
+   TABLE OF CONTENTS
+   ============================================ */
+.toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 10pt;
+}
+
+.toc-item-name {
+    color: #EBF0FF;
+}
+
+.toc-item-page {
+    color: #FF6B23;
+    font-weight: 600;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.8rem 3rem;
+    background: #070D18;
+    border-top: 1px solid rgba(255,107,35,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #7B8BAA;
+}
+
+.footer-brand {
+    color: #FF6B23;
+    font-weight: 600;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     COVER PAGE
+     ============================================ -->
+<div class="cover-page">
+    <div class="cover-content">
+        
+        <!-- Company name -->
+        <div class="cover-logo">{{ company_name }}</div>
+        
+        <!-- Report title -->
+        <div class="cover-title">{{ report_title }}</div>
+        
+        <!-- Bank name -->
+        <div class="cover-bank">{{ bank_name }}</div>
+        
+        <div class="cover-divider"></div>
+        
+        <!-- Overall risk rating badge -->
+        <div class="cover-risk-badge" 
+             style="color: {{ risk_rating.color }}; 
+                    border-color: {{ risk_rating.color }};">
+            Overall Risk: {{ risk_rating.rating }}
+        </div>
+        
+        <!-- Report metadata -->
+        <div class="cover-meta">
+            <div><strong>Audit Date:</strong> {{ audit_date }}</div>
+            <div><strong>Auditor:</strong> {{ auditor_name }}</div>
+            <div><strong>Total Findings:</strong> {{ finding_count }}</div>
+            <div><strong>Generated:</strong> {{ generated_date }}</div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- ============================================
+     TABLE OF CONTENTS
+     ============================================ -->
+<div class="inner-page">
+    
+    <div class="page-header">
+        <div class="page-header-left">{{ bank_name }} — {{ report_title }}</div>
+        <div class="page-header-right">CONFIDENTIAL</div>
+    </div>
+    
+    <div class="section-heading">Table of Contents</div>
+    
+    <div class="toc-item">
+        <span class="toc-item-name">Executive Summary</span>
+        <span class="toc-item-page">3</span>
+    </div>
+    <div class="toc-item">
+        <span class="toc-item-name">Findings Overview</span>
+        <span class="toc-item-page">4</span>
+    </div>
+    {% for i, finding in enumerate(findings) %}
+    <div class="toc-item" style="padding-left: 1rem;">
+        <span class="toc-item-name" style="color: #7B8BAA;">
+            Finding {{ i+1 }}: {{ finding.finding_header or finding.control_question[:50] }}
+        </span>
+        <span class="toc-item-page">{{ 5 + i }}</span>
+    </div>
+    {% endfor %}
+    
+</div>
+
+
+<!-- ============================================
+     EXECUTIVE SUMMARY
+     ============================================ -->
+<div class="inner-page">
+    
+    <div class="page-header">
+        <div class="page-header-left">{{ bank_name }} — {{ report_title }}</div>
+        <div class="page-header-right">CONFIDENTIAL</div>
+    </div>
+    
+    <div class="section-heading">Executive Summary</div>
+    
+    <!-- Overall risk rating -->
+    <div class="risk-rating-box">
+        <div class="risk-rating-label">Overall Risk Rating</div>
+        <div class="risk-rating-value" 
+             style="color: {{ risk_rating.color }}">
+            {{ risk_rating.rating }}
+        </div>
+        <div class="risk-rating-desc">{{ risk_rating.description }}</div>
+    </div>
+    
+    <!-- Summary stats -->
+    <div class="summary-grid">
+        <div class="summary-card">
+            <span class="summary-card-number">{{ finding_count }}</span>
+            <span class="summary-card-label">Total Findings</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-card-number" style="color: #E24B4A;">
+                {{ findings | selectattr('score', 'equalto', 4) | list | length }}
+            </span>
+            <span class="summary-card-label">Critical Items</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-card-number" style="color: #1D9E75;">
+                {{ audit_date }}
+            </span>
+            <span class="summary-card-label">Audit Date</span>
+        </div>
+    </div>
+    
+    <!-- Summary text -->
+    <p style="color: #C8D0E0; font-size: 10pt; line-height: 1.8;">
+        This report presents the findings of the IT audit conducted for 
+        <strong style="color: #EBF0FF;">{{ bank_name }}</strong> 
+        on <strong style="color: #EBF0FF;">{{ audit_date }}</strong>.
+        The audit was performed by 
+        <strong style="color: #EBF0FF;">{{ auditor_name }}</strong>
+        in accordance with FFIEC guidance and industry best practices.
+        A total of <strong style="color: #FF6B23;">{{ finding_count }} findings</strong> 
+        were identified during this engagement. 
+        The overall risk rating is 
+        <strong style="color: {{ risk_rating.color }};">{{ risk_rating.rating }}</strong>.
+    </p>
+    
+</div>
+
+
+<!-- ============================================
+     FINDINGS PAGES
+     ============================================ -->
+<div class="inner-page">
+    
+    <div class="page-header">
+        <div class="page-header-left">{{ bank_name }} — {{ report_title }}</div>
+        <div class="page-header-right">CONFIDENTIAL</div>
+    </div>
+    
+    <div class="section-heading">Findings</div>
+    
+    <!-- Loop through all findings -->
+    {% for finding in findings %}
+    <div class="finding-card">
+        
+        <!-- Finding header -->
+        <div class="finding-header">
+            <span class="finding-number">Finding {{ loop.index }}</span>
+            {{ finding.finding_header or finding.control_question }}
+            <span class="finding-control-id">Control: {{ finding.control_id }}</span>
+        </div>
+        
+        <!-- Risk description -->
+        <div class="finding-section">
+            <div class="finding-section-label">Risk Description</div>
+            <div class="finding-section-text">
+                {{ finding.risk_description or finding.notes }}
+            </div>
+        </div>
+        
+        <!-- Recommendation -->
+        <div class="finding-section">
+            <div class="finding-section-label">Recommendation</div>
+            <div class="finding-section-text">
+                {{ finding.recommendation or "Please review and remediate this finding." }}
+            </div>
+        </div>
+        
+        <!-- Artifact reference -->
+        {% if finding.artifact %}
+        <div class="finding-section">
+            <div class="finding-section-label">Artifact</div>
+            <div class="finding-section-text">{{ finding.artifact }}</div>
+        </div>
+        {% endif %}
+        
+        <!-- References -->
+        <div class="references">
+            <span class="reference-badge">FFIEC</span>
+            <span class="reference-badge">CIS v8</span>
+            {% if finding.control_id %}
+            <span class="reference-badge">Control {{ finding.control_id }}</span>
+            {% endif %}
+        </div>
+        
+    </div>
+    {% endfor %}
+    
+    <!-- No findings message -->
+    {% if not findings %}
+    <div style="text-align: center; padding: 3rem; color: #7B8BAA;">
+        <div style="font-size: 24pt; margin-bottom: 1rem;">✅</div>
+        <div style="font-size: 14pt; color: #1D9E75;">No findings identified</div>
+        <div style="font-size: 10pt; margin-top: 0.5rem;">
+            All controls meet requirements
+        </div>
+    </div>
+    {% endif %}
+    
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+    <span>{{ bank_name }} — {{ report_title }} — {{ audit_date }}</span>
+    <span class="footer-brand">{{ company_name }}</span>
+    <span>CONFIDENTIAL</span>
+</div>
+
+</body>
+</html>

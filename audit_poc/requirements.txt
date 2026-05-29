@@ -1,0 +1,38 @@
+# ============================================
+# AUDIT POC - Python Dependencies
+# ============================================
+# Install all dependencies with:
+# pip install -r requirements.txt
+
+# UI - Streamlit web interface
+streamlit==1.35.0
+
+# PDF reading - extract text from PDF files
+pymupdf==1.24.5
+
+# Word document reading - extract text from DOCX files
+python-docx==1.1.2
+
+# Excel reading and writing - load/populate workbook
+openpyxl==3.1.4
+
+# Local AI model runner - talks to Ollama
+ollama==0.2.1
+
+# OpenAI SDK - future support
+openai==1.35.0
+
+# Anthropic Claude SDK - future support
+anthropic==0.29.0
+
+# HTML to PDF report generation
+weasyprint==62.3
+
+# HTML templating for branded reports
+jinja2==3.1.4
+
+# Configuration file reading
+pyyaml==6.0.1
+
+# Better looking tables in Streamlit
+pandas==2.2.2

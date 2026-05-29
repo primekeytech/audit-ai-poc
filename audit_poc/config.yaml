@@ -1,0 +1,64 @@
+# ============================================
+# AUDIT POC - Configuration File
+# ============================================
+# This file controls all settings for the app.
+# Change values here without touching any code!
+
+# --------------------------------------------
+# AI PROVIDER SETTINGS
+# --------------------------------------------
+# Which AI provider to use:
+# Options: "ollama" (local) | "openai" | "anthropic"
+ai:
+  provider: "ollama"          # Default: local Ollama (no internet needed)
+  model: "llama3"             # AI model to use
+  temperature: 0.2            # Lower = more consistent responses (0.0 - 1.0)
+  max_tokens: 2000            # Maximum response length
+
+# --------------------------------------------
+# OLLAMA SETTINGS (Local AI)
+# --------------------------------------------
+ollama:
+  host: "http://localhost:11434"   # Ollama runs locally on this address
+  model: "llama3"                  # Model pulled via: ollama pull llama3
+
+# --------------------------------------------
+# OPENAI SETTINGS (Future use)
+# --------------------------------------------
+openai:
+  api_key: ""                 # Add your OpenAI API key here when needed
+  model: "gpt-4o"             # OpenAI model to use
+
+# --------------------------------------------
+# ANTHROPIC SETTINGS (Future use)
+# --------------------------------------------
+anthropic:
+  api_key: ""                 # Add your Anthropic API key here when needed
+  model: "claude-sonnet-4-20250514"
+
+# --------------------------------------------
+# FILE PATHS
+# --------------------------------------------
+paths:
+  workbook_template: "workbook/template.xlsx"    # Benjamin's work program template
+  outputs_folder: "outputs/"                      # Where generated files are saved
+  templates_folder: "templates/"                  # HTML report templates
+
+# --------------------------------------------
+# WORKBOOK SETTINGS
+# --------------------------------------------
+workbook:
+  score_column: "F"           # Column F = Score (1-4)
+  artifact_column: "G"        # Column G = Artifact reference
+  notes_column: "H"           # Column H = AI notes/interpretation
+  finding_threshold: 4        # Score 4 = Generate a finding
+
+# --------------------------------------------
+# REPORT SETTINGS
+# --------------------------------------------
+report:
+  company_name: "Prime Key Software Solutions"
+  auditor_name: "Benjamin Caruso"
+  report_title: "IT Audit Report"
+  accent_color: "#FF6B23"     # Blood orange brand color
+  dark_background: "#0A0F1E"  # Deep navy background
