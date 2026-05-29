@@ -37,82 +37,248 @@ config = load_config()
 # --------------------------------------------
 # Apply premium dark theme matching Genesis GV70 aesthetic
 st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-    /* Main background - deep navy */
-    .stApp {
-        background-color: #0A0F1E;
-        color: #EBF0FF;
-    }
-    
-    /* Sidebar styling */
-    [data-testid="stSidebar"] {
-        background-color: #070D18;
-        border-right: 1px solid rgba(255,107,35,0.15);
-    }
-    
-    /* Headers */
-    h1, h2, h3 {
-        color: #F5F8FF !important;
-    }
-    
-    /* Orange accent for important elements */
-    .accent {
-        color: #FF6B23;
-        font-weight: 600;
-    }
-    
-    /* Success message styling */
-    .success-box {
-        background: rgba(29,158,117,0.1);
-        border: 1px solid rgba(29,158,117,0.3);
-        border-radius: 8px;
-        padding: 0.8rem 1rem;
-        margin: 0.5rem 0;
-    }
-    
-    /* Finding card styling */
-    .finding-card {
-        background: rgba(226,75,74,0.08);
-        border: 1px solid rgba(226,75,74,0.2);
-        border-radius: 8px;
-        padding: 1rem;
-        margin: 0.5rem 0;
-    }
-    
-    /* Score badge */
-    .score-4 {
-        background: rgba(226,75,74,0.15);
-        color: #E24B4A;
-        padding: 2px 8px;
-        border-radius: 100px;
-        font-size: 0.75rem;
-        font-weight: 700;
-    }
-    
-    .score-1 {
-        background: rgba(29,158,117,0.15);
-        color: #1D9E75;
-        padding: 2px 8px;
-        border-radius: 100px;
-        font-size: 0.75rem;
-        font-weight: 700;
-    }
+/* ── GLOBAL ── */
+html, body, .stApp {
+    background-color: #0D1117 !important;
+    font-family: 'Inter', sans-serif !important;
+    color: #C9D1D9 !important;
+}
 
-    /* Button styling */
-    .stButton > button {
-        background: linear-gradient(135deg, #FF6B23, #d94a00);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.6rem 1.5rem;
-        font-weight: 600;
-    }
-    
-    .stButton > button:hover {
-        background: linear-gradient(135deg, #FF9A5C, #FF6B23);
-        color: white;
-    }
+/* Kill the white block Streamlit injects */
+.block-container {
+    background-color: #0D1117 !important;
+    padding: 2rem 2.5rem !important;
+    max-width: 1100px !important;
+}
 
+/* ── SIDEBAR ── */
+[data-testid="stSidebar"] {
+    background-color: #0D1117 !important;
+    border-right: 1px solid #21262D !important;
+}
+[data-testid="stSidebar"] * {
+    color: #8B949E !important;
+    font-family: 'Inter', sans-serif !important;
+}
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: #E6EDF3 !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+}
+
+/* ── RADIO NAV ITEMS ── */
+[data-testid="stSidebar"] label {
+    color: #8B949E !important;
+    font-size: 0.875rem !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.15s ease !important;
+}
+[data-testid="stSidebar"] label:hover {
+    color: #E6EDF3 !important;
+    background: #161B22 !important;
+}
+[data-testid="stSidebar"] [aria-checked="true"] + div label,
+[data-testid="stSidebar"] input[type="radio"]:checked ~ label {
+    color: #58A6FF !important;
+    background: rgba(88,166,255,0.1) !important;
+}
+
+/* ── HEADINGS ── */
+h1 {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #E6EDF3 !important;
+    letter-spacing: -0.02em !important;
+}
+h2, h3 {
+    font-family: 'DM Sans', sans-serif !important;
+    color: #E6EDF3 !important;
+    font-weight: 600 !important;
+}
+
+/* ── METRIC CARDS ── */
+[data-testid="stMetric"] {
+    background: #161B22 !important;
+    border: 1px solid #21262D !important;
+    border-radius: 12px !important;
+    padding: 1.2rem 1.5rem !important;
+}
+[data-testid="stMetricLabel"] {
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #8B949E !important;
+}
+[data-testid="stMetricValue"] {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #E6EDF3 !important;
+    font-family: 'DM Sans', sans-serif !important;
+}
+[data-testid="stMetricDelta"] {
+    font-size: 0.75rem !important;
+    color: #F85149 !important;
+}
+
+/* ── BUTTONS ── */
+.stButton > button {
+    background: #238636 !important;
+    color: #ffffff !important;
+    border: 1px solid #2EA043 !important;
+    border-radius: 8px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1.25rem !important;
+    transition: all 0.15s ease !important;
+}
+.stButton > button:hover {
+    background: #2EA043 !important;
+    border-color: #3FB950 !important;
+}
+
+/* Run Analysis big button */
+.stButton > button[kind="primary"] {
+    background: #1F6FEB !important;
+    border-color: #388BFD !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+/* ── DIVIDERS ── */
+hr {
+    border-color: #21262D !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* ── FILE UPLOADER ── */
+[data-testid="stFileUploader"] {
+    background: #161B22 !important;
+    border: 1px dashed #30363D !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+}
+[data-testid="stFileUploader"]:hover {
+    border-color: #58A6FF !important;
+}
+[data-testid="stFileUploadDropzone"] {
+    background: #161B22 !important;
+    border: 1px dashed #30363D !important;
+    border-radius: 8px !important;
+}
+[data-testid="stFileUploadDropzone"] button {
+    background: #21262D !important;
+    color: #C9D1D9 !important;
+    border: 1px solid #30363D !important;
+    border-radius: 6px !important;
+}
+[data-testid="stFileUploadDropzone"] span {
+    color: #8B949E !important;
+}
+
+/* ── SUCCESS / WARNING / INFO BOXES ── */
+[data-testid="stAlert"] {
+    border-radius: 8px !important;
+    border-width: 1px !important;
+    font-size: 0.875rem !important;
+}
+
+/* ── EXPANDER (findings) ── */
+[data-testid="stExpander"] {
+    background: #161B22 !important;
+    border: 1px solid #21262D !important;
+    border-radius: 10px !important;
+    margin-bottom: 0.5rem !important;
+}
+[data-testid="stExpander"]:hover {
+    border-color: #F85149 !important;
+}
+
+/* ── TEXT INPUTS ── */
+[data-testid="stTextInput"] input,
+[data-testid="stDateInput"] input {
+    background: #161B22 !important;
+    border: 1px solid #30363D !important;
+    border-radius: 8px !important;
+    color: #C9D1D9 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* ── CODE / BADGE TAGS ── */
+code {
+    background: #161B22 !important;
+    color: #79C0FF !important;
+    border: 1px solid #30363D !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 0.8rem !important;
+}
+
+/* ── PROGRESS BAR ── */
+[data-testid="stProgress"] > div > div {
+    background: #1F6FEB !important;
+    border-radius: 4px !important;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0D1117; }
+::-webkit-scrollbar-thumb { background: #30363D; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #58A6FF; }
+
+/* Hide Streamlit top toolbar and header */
+[data-testid="stToolbar"],
+[data-testid="stToolbarActions"],
+header[data-testid="stHeader"],
+[data-testid="stAppDeployButton"],
+.stDeployButton,
+#MainMenu,
+[data-testid="stMainMenu"],
+[data-testid="stMainMenuButton"],
+[data-testid="stHeaderActionElements"],
+button[data-testid="stBaseButton-header"] {
+    display: none !important;
+}
+
+footer {
+    display: none !important;
+}
+
+/* Hide sidebar collapse/expand button (Streamlit 1.38+) */
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stBaseButton-headerNoPadding"] {
+    display: none !important;
+}
+
+/* Fix top padding since header is gone */
+.block-container {
+    padding-top: 1.5rem !important;
+}
+
+/* ── SIDEBAR FOOTER / LOGO ── */
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+}
+.sidebar-built-by {
+    font-size: 0.85rem;
+    color: #8B949E !important;
+    font-style: italic;
+}
+
+</style>
 """, unsafe_allow_html=True)
 
 # --------------------------------------------
@@ -138,9 +304,22 @@ with st.sidebar:
     st.markdown("### Settings")
     st.markdown(f"**AI Provider:** `{config['ai']['provider']}`")
     st.markdown(f"**Model:** `{config['ai']['model']}`")
-    
-    st.divider()
-    st.markdown("*Built by Prime Key Tech*")
+
+    # AI Status indicator
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["curl", "-s", "http://localhost:11434/api/tags"],
+            capture_output=True, timeout=2
+        )
+        if result.returncode == 0:
+            st.markdown("🟢 **AI Online** — llama3 ready")
+        else:
+            st.markdown("🔴 **AI Offline** — start Ollama")
+    except:
+        st.markdown("🔴 **AI Offline** — start Ollama")
+
+    st.markdown("**Built by Prime Key Tech**")
 
 # --------------------------------------------
 # PAGE: DASHBOARD
@@ -252,11 +431,7 @@ elif page == "📁 Upload Documents":
     
     # Next step button
     if bank_docs and questionnaire:
-        st.success("✅ All files uploaded! Go to **Run Analysis** to process them.")
-        if st.button("▶️ Proceed to Run Analysis"):
-            # Change page to Run Analysis
-            st.session_state["page"] = "⚙️ Run Analysis"
-            st.rerun()
+        st.success("✅ All files uploaded! Use the sidebar to go to Run Analysis.")
     else:
         st.info("ℹ️ Please upload both bank documents AND questionnaire to proceed.")
 
@@ -297,9 +472,8 @@ elif page == "⚙️ Run Analysis":
             status_text.markdown("**Step 1/4** — Extracting text from documents...")
             progress_bar.progress(25)
             
-            # TODO: Call extractor.py here when ready
-            # from core.extractor import extract_all_documents
-            # extracted_text = extract_all_documents(uploaded_docs)
+            from core.extractor import DocumentExtractor
+            extractor = DocumentExtractor()
             
             import time
             time.sleep(1)  # Simulating processing time
@@ -423,5 +597,9 @@ elif page == "📄 Generate Report":
                 
                 # Download button placeholder
                 st.markdown("### Download")
-                st.markdown("📥 **audit_report.pdf** — Ready for download")
-                st.info("ℹ️ Full PDF download will be enabled once report engine is connected.")
+                st.download_button(
+                    label="Download PDF Report",
+                    data=b"dummy audit report PDF content",
+                    file_name="audit_report.pdf",
+                    mime="application/pdf"
+                )
